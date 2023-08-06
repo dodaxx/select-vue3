@@ -57,4 +57,4 @@ function handleOptionsSelected(d){
 
 ## Authors
 
-- [@octokatherine](https://www.github.com/dodaxx)
+- [@dodaxx](https://www.github.com/dodaxx)

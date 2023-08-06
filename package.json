@@ -1,16 +1,16 @@
 {
-  "name": "vueselectinvue3",
+  "name": "select-vue3",
   "version": "0.0.1",
   "type": "module",
   "description": "A Select component for vue 3 ",
   "private": false,
   "files": ["dist", "src/components/"], 
-  "main": "./dist/vue-select-in-vue3.umd.cjs",
+  "main": "./dist/select-vue3.umd.cjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/vue-select-in-vue3.js",
-      "require": "./dist/vue-select-in-vue3.umd.cjs"
+      "import": "./dist/select-vue3.js",
+      "require": "./dist/select-vue3.umd.cjs"
     },
     "./dist/style.css": {
       "import": "./dist/style.css",

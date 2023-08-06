@@ -8,8 +8,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
-      name: "vueSelectInvue3",
-      fileName: "vue-select-in-vue3"
+      name: "select-vue3",
+      fileName: "select-vue3"
     },
     rollupOptions: {
       external: ["vue"],
