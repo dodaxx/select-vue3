@@ -34,7 +34,7 @@ const options = [
 ] as Array<OptionsSelected>;
 
 function handleOptionsSelected(d: OptionsSelected) {
-  console.log(d);
+  // console.log(d);
 }
 </script>
 
@@ -44,8 +44,4 @@ function handleOptionsSelected(d: OptionsSelected) {
   </div>
 </template>
 
-<style scoped>
-.test {
-  width: 250px;
-}
-</style>
+<style scoped></style>

@@ -1,24 +1,28 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import { resolve } from "node:path";
+import vue from "@vitejs/plugin-vue";
+import * as path from "path";
+import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), dts()],
   build: {
     lib: {
-      entry: resolve(__dirname, "src/index.ts"),
-      name: "TestComponent",
-      fileName: "app-select-vue3",
+      entry: path.resolve(__dirname, "src/index.ts"),
+      name: "vueSelectInvue3",
+      fileName: "vue-select-in-vue3"
     },
     rollupOptions: {
       external: ["vue"],
       output: {
         globals: {
-          vue: "Vue",
-        },
-      },
-    },
+          vue: "Vue"
+        }
+      }
+    }
   },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src")
+    }
+  }
 });

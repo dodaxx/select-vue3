@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import ArrowDownIcon from '../../icons/ArrowDown.vue';
 
 type OptionsSelected = {
@@ -13,7 +13,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   getOptionSelected: [OptionsSelected]
-}>()
+}>();
 
 const optionSelected = ref<OptionsSelected>(props.options[0]);
 const divOptions = ref<HTMLDivElement>();
@@ -28,10 +28,20 @@ function handleShowSelectOptions() {
   divOptions.value?.classList.toggle('show');
 };
 
+onMounted(() => {
+  document.addEventListener('click', event => {
+    const selOp = document.getElementById('select-options');
+    const eTarg = event.target as Element;
+    const isOutside = selOp?.contains(eTarg);
+    if (!isOutside) {
+      divOptions.value?.classList.remove('show');
+    }
+  })
+});
 
 </script>
 <template>
-  <div class="select">
+  <div class="select" id="select-options">
     <div class="select-wrapper" @click="handleShowSelectOptions">
       <input type="text" v-model="optionSelected.label" readonly />
       <ArrowDownIcon />
@@ -46,6 +56,7 @@ function handleShowSelectOptions() {
 </template>
 <style scoped lang="scss">
 .select {
+  position: relative;
   color: #515151;
 
   &-wrapper {
@@ -65,7 +76,8 @@ function handleShowSelectOptions() {
       border-radius: 6px;
       height: 95%;
       width: 98%;
-      font-size: 16px;
+      font-size: 14px;
+      font-weight: 600;
       color: #515151;
       text-transform: capitalize;
       outline: none;
@@ -90,13 +102,14 @@ function handleShowSelectOptions() {
     display: none;
     position: absolute;
     min-width: 250px;
+    width: 100%;
 
     &.show {
       display: block;
     }
 
     &::-webkit-scrollbar {
-      width: 4px;
+      width: 3px;
       height: 8px;
     }
 
@@ -107,7 +120,7 @@ function handleShowSelectOptions() {
 
     &__option {
       font-family: 'Roboto', sans-serif;
-      font-size: 16px;
+      font-size: 14px;
       padding: 8px 4px;
       border-bottom: 1px solid #efefef;
       cursor: pointer;

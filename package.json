@@ -1,21 +1,22 @@
 {
-  "name": "app-select-vue3",
+  "name": "vueselectinvue3",
   "version": "0.0.1",
   "type": "module",
   "description": "A Select component for vue 3 ",
-  "main": "./dist/fileName.umd.js",
-  "module": "./dist/fileName.js",
+  "private": false,
+  "files": ["dist", "src/components/"], 
+  "main": "./dist/vue-select-in-vue3.umd.cjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/fileName.esm.js",
-      "require": "./dist/fileName.js"
+      "import": "./dist/vue-select-in-vue3.js",
+      "require": "./dist/vue-select-in-vue3.umd.cjs"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
     }
   },
-  "files": [
-    "dist",
-    "src"
-  ],
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
@@ -29,12 +30,15 @@
   ],
   "author": "Dodaxx",
   "dependencies": {
-    "sass": "^1.64.2",
     "vue": "^3.3.4"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.4.8",
     "@vitejs/plugin-vue": "^4.2.3",
+    "sass": "^1.64.2",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vite-plugin-dts": "^3.5.1",
