@@ -37,7 +37,7 @@ const options = [
   },
   {
     id: 7,
-    label: 'Hote'
+    label: 'GameGame'
   },
   {
     id: 8,

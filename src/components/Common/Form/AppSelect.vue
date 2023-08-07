@@ -55,18 +55,16 @@ onMounted(() => {
 watch(() => optionSelected.value.label,
   (n) => {
     for (let i = 0; i < divOptions.value?.children.length!; i++) {
-      if (divOptions.value?.children[i].textContent == n) {
-        const e = divOptions.value.children[i];
-        const positionParent = divOptions.value.getBoundingClientRect().y;
-        const positionChildren = divOptions.value.children[i].getBoundingClientRect().y;
-        divOptions.value.scrollTo(0, positionChildren - positionParent + divOptions.value.scrollTop);
+      const regex = new RegExp(n, "i");
+      if (optionsList[i].label.match(regex)) {
+        const positionParent = divOptions.value!.getBoundingClientRect().y;
+        const positionChildren = divOptions.value!.children[i].getBoundingClientRect().y;
+        divOptions.value!.scrollTo(0, positionChildren - positionParent + divOptions.value!.scrollTop);
+        break
       }
     }
   }
 );
-
-
-
 
 </script>
 <template>
