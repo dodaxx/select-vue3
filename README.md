@@ -4,18 +4,17 @@ A simple select component for vuejs 3.
 
 ## Installation
 
-Install my-project with npm
+Install select-vue3 with npm
 
 ```bash
-  npm install select-vue3
+npm install select-vue3
 ```
 
 ## Usage/Examples
 
-```javascript
+```vue
 <script setup>
-import { AppSelect } from "select-vue"
-
+import { AppSelect } from "select-vue3"
 
 const options = [
   {
@@ -44,17 +43,20 @@ const options = [
   },
 ];
 
-function handleOptionsSelected(d){
-    console.log(d); //output: option selected from AppSelect
+function handleOptionsSelected(d) {
+    console.log(d); // output: option selected from AppSelect
 }
 </script>
 
 <template>
   <AppSelect :options="options" @get-option-selected="handleOptionsSelected" />
 </template>
-
 ```
 
 ## Authors
 
-- [@dodaxx](https://www.github.com/dodaxx)
+- [dodaxx](https://www.github.com/dodaxx)
+
+## Contributors
+
+- [hantsaniala](https://www.github.com/hantsaniala)
