@@ -1,6 +1,8 @@
 # select-vue3
 
-A simple select component for vuejs 3.
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+
+A simple select component for vuejs 3.You can search with partial match in list options.
 
 ## Installation
 
@@ -14,37 +16,42 @@ npm install select-vue3
 
 ```vue
 <script setup>
-import { AppSelect } from "select-vue3"
+import { AppSelect } from "select-vue3";
 
 const options = [
   {
     id: 0,
-    label: 'Aaren'
+    label: "Aaren",
   },
   {
     id: 1,
-    label: 'Abagael'
+    label: "Abagael",
   },
   {
     id: 2,
-    label: 'Abbe'
+    label: "Abbe",
   },
   {
     id: 3,
-    label: 'Abbi'
+    label: "Abbi",
   },
   {
     id: 4,
-    label: 'Abbie'
+    label: "Abbie",
   },
   {
     id: 5,
-    label: 'Abigale'
+    label: "Abigale",
   },
 ];
 
+const styles = {
+  borderColor: "blue", //border color for select-vue3
+  fontSize: "14px", //font-size for options list
+}; // style available at the moment, other features are in progress
+
 function handleOptionsSelected(d) {
-    console.log(d); // output: option selected from AppSelect
+  console.log(d); // output: option selected from AppSelect
 }
 </script>
 
@@ -60,3 +67,7 @@ function handleOptionsSelected(d) {
 ## Contributors
 
 - [hantsaniala](https://www.github.com/hantsaniala)
+
+## TODOS
+
+- Custom design
