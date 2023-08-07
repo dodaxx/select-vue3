@@ -5,18 +5,29 @@ import ArrowDownIcon from '../../icons/ArrowDown.vue';
 type OptionsSelected = {
   id: number,
   label: string
+};
+
+type Styles = {
+  borderColor?: string,
+  fontSize?: string
 }
 
-const props = defineProps<{
-  options: Array<OptionsSelected>
+const { optionsList, stylesOptions } = defineProps<{
+  optionsList: Array<OptionsSelected>,
+  stylesOptions?: Styles
 }>();
 
 const emit = defineEmits<{
   getOptionSelected: [OptionsSelected]
 }>();
 
-const optionSelected = ref<OptionsSelected>(props.options[0]);
+const optionSelected = ref<OptionsSelected>(optionsList[0]);
 const divOptions = ref<HTMLDivElement>();
+
+const styles = ref({
+  border: `1px solid ${stylesOptions?.borderColor}`,
+  fontSize: stylesOptions?.fontSize ? stylesOptions?.fontSize : '14px'
+});
 
 function handleChooseOption(d: OptionsSelected) {
   optionSelected.value = d;
@@ -42,12 +53,12 @@ onMounted(() => {
 </script>
 <template>
   <div class="select" id="select-options">
-    <div class="select-wrapper" @click="handleShowSelectOptions">
+    <div class="select-wrapper" @click="handleShowSelectOptions" :style="styles">
       <input type="text" v-model="optionSelected.label" readonly />
       <ArrowDownIcon />
     </div>
-    <div class="select-options" ref="divOptions">
-      <div v-for="(i, index) in options" :key="`i-${index}`"
+    <div class="select-options" ref="divOptions" :style="styles">
+      <div v-for="(i, index) in  optionsList " :key="`i-${index}`"
         :class="`select-options__option ${index === optionSelected.id ? `active` : ''}`" @click="handleChooseOption(i)">
         {{ i.label }}
       </div>
@@ -120,7 +131,6 @@ onMounted(() => {
 
     &__option {
       font-family: 'Roboto', sans-serif;
-      font-size: 14px;
       padding: 8px 4px;
       border-bottom: 1px solid #efefef;
       cursor: pointer;
