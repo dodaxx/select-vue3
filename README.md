@@ -56,7 +56,11 @@ function handleOptionsSelected(d) {
 </script>
 
 <template>
-  <AppSelect :options="options" @get-option-selected="handleOptionsSelected" />
+  <AppSelect
+    :options="options"
+    :styles-options="styles"
+    @get-option-selected="handleOptionsSelected"
+  />
 </template>
 ```
 
