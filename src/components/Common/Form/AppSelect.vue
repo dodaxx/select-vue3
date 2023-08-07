@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import ArrowDownIcon from '../../icons/ArrowDown.vue';
 
 type OptionsSelected = {
@@ -21,8 +21,9 @@ const emit = defineEmits<{
   getOptionSelected: [OptionsSelected]
 }>();
 
-const optionSelected = ref<OptionsSelected>(optionsList[0]);
+const optionSelected = ref<OptionsSelected>({ ...optionsList[0] });
 const divOptions = ref<HTMLDivElement>();
+
 
 const styles = ref({
   border: `1px solid ${stylesOptions?.borderColor}`,
@@ -30,7 +31,8 @@ const styles = ref({
 });
 
 function handleChooseOption(d: OptionsSelected) {
-  optionSelected.value = d;
+  const f = { ...d };
+  optionSelected.value = f;
   divOptions.value?.classList.remove('show');
   emit('getOptionSelected', optionSelected.value);
 };
@@ -50,11 +52,27 @@ onMounted(() => {
   })
 });
 
+watch(() => optionSelected.value.label,
+  (n) => {
+    for (let i = 0; i < divOptions.value?.children.length!; i++) {
+      if (divOptions.value?.children[i].textContent == n) {
+        const e = divOptions.value.children[i];
+        const positionParent = divOptions.value.getBoundingClientRect().y;
+        const positionChildren = divOptions.value.children[i].getBoundingClientRect().y;
+        divOptions.value.scrollTo(0, positionChildren - positionParent + divOptions.value.scrollTop);
+      }
+    }
+  }
+);
+
+
+
+
 </script>
 <template>
   <div class="select" id="select-options">
     <div class="select-wrapper" @click="handleShowSelectOptions" :style="styles">
-      <input type="text" v-model="optionSelected.label" readonly />
+      <input type="text" v-model="optionSelected.label" />
       <ArrowDownIcon />
     </div>
     <div class="select-options" ref="divOptions" :style="styles">

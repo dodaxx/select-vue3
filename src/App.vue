@@ -9,28 +9,53 @@ type OptionsSelected = {
 const options = [
   {
     id: 0,
-    label: 'test'
+    label: 'Aaron'
   },
   {
     id: 1,
-    label: 'test_1'
+    label: 'Baron'
   },
   {
     id: 2,
-    label: 'test_2'
+    label: 'Cynthia'
   },
   {
     id: 3,
-    label: 'test_4'
+    label: 'David'
   },
   {
     id: 4,
-    label: 'test_5'
+    label: 'Elia'
   },
   {
     id: 5,
-    label: 'test_6'
+    label: 'Fako'
   },
+  {
+    id: 6,
+    label: 'Game'
+  },
+  {
+    id: 7,
+    label: 'Hote'
+  },
+  {
+    id: 8,
+    label: 'IA'
+  },
+  {
+    id: 9,
+    label: 'Jeux'
+  },
+  {
+    id: 10,
+    label: 'Kaoli'
+  },
+  {
+    id: 11,
+    label: 'Mere'
+  },
+
 ] as Array<OptionsSelected>;
 
 function handleOptionsSelected(d: OptionsSelected) {
