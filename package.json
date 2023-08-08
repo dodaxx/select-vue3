@@ -1,6 +1,6 @@
 {
   "name": "select-vue3",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "description": "A Select component for vue 3 ",
   "private": false,
