@@ -76,7 +76,7 @@ watch(() => optionSelected.value.label,
   <div class="select" id="select-options">
     <div :class="`select-wrapper ${isActive ? 'active' : ''}`" @click="handleShowSelectOptions" :style="styles">
       <div :class="`select-wrapper__border ${isActive ? 'active' : ''}`">
-        <input type="text" v-model="optionSelected.label" />
+        <input type="text" v-model="optionSelected.label" :readonly="!isActive" />
         <div :class="`icon-arrow ${isActive ? 'active' : ''}`">
           <ArrowDownIcon />
         </div>
