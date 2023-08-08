@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
-import ArrowDownIcon from '../../icons/ArrowDown.vue';
+import ArrowDownIcon from '../../icons/ArrowDownIcon.vue';
+import CheckIcon from '../../icons/CheckIcon.vue';
 
 type OptionsSelected = {
   id: number,
@@ -23,7 +24,7 @@ const emit = defineEmits<{
 
 const optionSelected = ref<OptionsSelected>({ ...optionsList[0] });
 const divOptions = ref<HTMLDivElement>();
-
+const isActive = ref<boolean>(false);
 
 const styles = ref({
   border: `1px solid ${stylesOptions?.borderColor}`,
@@ -33,12 +34,14 @@ const styles = ref({
 function handleChooseOption(d: OptionsSelected) {
   const f = { ...d };
   optionSelected.value = f;
-  divOptions.value?.classList.remove('show');
   emit('getOptionSelected', optionSelected.value);
+  isActive.value = false
+
 };
 
 function handleShowSelectOptions() {
-  divOptions.value?.classList.toggle('show');
+  isActive.value = !isActive.value;
+
 };
 
 onMounted(() => {
@@ -48,6 +51,7 @@ onMounted(() => {
     const isOutside = selOp?.contains(eTarg);
     if (!isOutside) {
       divOptions.value?.classList.remove('show');
+      isActive.value = false
     }
   })
 });
@@ -69,14 +73,24 @@ watch(() => optionSelected.value.label,
 </script>
 <template>
   <div class="select" id="select-options">
-    <div class="select-wrapper" @click="handleShowSelectOptions" :style="styles">
-      <input type="text" v-model="optionSelected.label" />
-      <ArrowDownIcon />
+    <div :class="`select-wrapper ${isActive ? 'active' : ''}`" @click="handleShowSelectOptions" :style="styles">
+      <div :class="`select-wrapper__border ${isActive ? 'active' : ''}`">
+        <input type="text" v-model="optionSelected.label" />
+        <div :class="`icon-arrow ${isActive ? 'active' : ''}`">
+          <ArrowDownIcon />
+        </div>
+      </div>
     </div>
-    <div class="select-options" ref="divOptions" :style="styles">
-      <div v-for="(i, index) in  optionsList " :key="`i-${index}`"
-        :class="`select-options__option ${index === optionSelected.id ? `active` : ''}`" @click="handleChooseOption(i)">
-        {{ i.label }}
+    <div :class="`select-options ${isActive ? 'show' : ''}`" ref="divOptions" :style="styles">
+      <div class="select-options__overflow">
+        <div class="select-options__wrapper">
+          <div v-for="(i, index) in  optionsList " :key="`i-${index}`"
+            :class="`select-options__option ${index === optionSelected.id ? `active` : ''}`"
+            @click="handleChooseOption(i)">
+            {{ i.label }}
+            <CheckIcon :class="`${index === optionSelected.id ? `active` : ''}`" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -90,85 +104,147 @@ watch(() => optionSelected.value.label,
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #c2c2c2;
-    height: 34px;
-    border-radius: 4px;
-    padding-right: 5px;
-    padding-left: 3px;
+    height: 40px;
+    border-radius: 14px;
     cursor: pointer;
+    padding: 1px 0;
+    border: 1px solid #dfdfdf;
+
+    &.active {
+      border: 3px solid #4c7efc4b;
+
+    }
+
+    &__border {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      padding-right: 8px;
+      padding-left: 10px;
+      border-radius: 12px;
+
+      &.active {
+        border: 1px solid #4c7dfc;
+
+      }
+    }
 
     input {
       cursor: pointer;
       border: none;
-      border-radius: 6px;
+      border-radius: 12px;
       height: 95%;
       width: 98%;
       font-size: 14px;
-      font-weight: 600;
-      color: #515151;
+      font-weight: 500;
+      color: #3f3f3f;
       text-transform: capitalize;
       outline: none;
     }
 
-    svg {
-      color: #c3c5c7;
-      width: 24px;
-      height: 22px;
-      cursor: pointer;
+    .icon-arrow {
+      background-color: #7096f825;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10rem;
+      width: 26px;
+      height: 24px;
+
+      svg {
+        color: #4c7dfc;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+
+      &.active {
+        background-color: transparent;
+        transform: rotate(180deg);
+
+        svg {
+          color: #c3c5c7;
+        }
+      }
 
     }
   }
 
   &-options {
     margin-top: 4px;
-    border: 1px solid #c2c2c2;
-    border-radius: 4px;
-    height: 140px;
-    overflow: auto;
+    border: 1px solid #dfdfdf;
+    border-radius: 12px;
+    height: 160px;
     text-transform: capitalize;
     display: none;
     position: absolute;
     min-width: 250px;
     width: 100%;
+    padding-right: 5px;
+
+    &__overflow {
+      overflow: auto;
+      height: 100%;
+
+      &::-webkit-scrollbar {
+        width: 4px;
+        height: 8px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: #c2c2c2;
+        border-radius: 10px;
+      }
+
+      &::-webkit-scrollbar-track {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+    }
+
+    &__wrapper {
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
 
     &.show {
       display: block;
     }
 
-    &::-webkit-scrollbar {
-      width: 3px;
-      height: 8px;
-    }
 
-    &::-webkit-scrollbar-thumb {
-      background-color: #c2c2c2;
-      border-radius: 10px;
-    }
 
     &__option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-family: 'Roboto', sans-serif;
-      padding: 8px 4px;
-      border-bottom: 1px solid #efefef;
+      padding: 12px;
       cursor: pointer;
+      border-radius: 8px;
+      color: #3f3f3f;
+
+      svg {
+        display: none;
+        width: 18px;
+        height: 18px;
+
+        &.active {
+          display: block;
+        }
+      }
 
       &:hover {
-        background-color: #f0f0f0;
+        background-color: #7096f825;
       }
 
       &.active {
-        background-color: #f0f0f0;
-      }
-
-      &:nth-child(1) {
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-      }
-
-      &:last-child {
-        border-bottom-left-radius: 4px;
-        border-bottom-right-radius: 4px;
-        border-bottom: 1px solid transparent;
-
+        background-color: #7096f825;
+        color: #4c7dfc;
+        font-weight: 700;
       }
     }
   }

@@ -74,4 +74,8 @@ const styles = {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.test {
+  width: 270px;
+}
+</style>
