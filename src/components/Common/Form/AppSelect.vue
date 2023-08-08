@@ -8,6 +8,7 @@ type OptionsSelected = {
   label: string
 };
 
+//TODO: ADD ANOTHER STYLE
 type Styles = {
   borderColor?: string,
   fontSize?: string

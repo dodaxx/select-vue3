@@ -45,22 +45,13 @@ const options = [
   },
 ];
 
-const styles = {
-  borderColor: "blue", //border color for select-vue3
-  fontSize: "14px", //font-size for options list
-}; // style available at the moment, other features are in progress
-
 function handleOptionsSelected(d) {
   console.log(d); // output: option selected from AppSelect
 }
 </script>
 
 <template>
-  <AppSelect
-    :options="options"
-    :styles-options="styles"
-    @get-option-selected="handleOptionsSelected"
-  />
+  <AppSelect :options="options" @get-option-selected="handleOptionsSelected" />
 </template>
 ```
 

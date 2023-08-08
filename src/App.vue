@@ -59,18 +59,15 @@ const options = [
 ] as Array<OptionsSelected>;
 
 function handleOptionsSelected(d: OptionsSelected) {
-  // console.log(d);
+  console.log(d);
 }
 
-const styles = {
-  // borderColor: "blue",
-  fontSize: "14px"
-}
+
 </script>
 
 <template>
   <div class="test">
-    <AppSelect :options-list="options" :styles-options="styles" @get-option-selected="handleOptionsSelected" />
+    <AppSelect :options-list="options" @get-option-selected="handleOptionsSelected" />
   </div>
 </template>
 
