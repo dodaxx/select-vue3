@@ -6,7 +6,7 @@ A simple select component for vuejs 3.You can search with partial match in list 
 
 ## Demo
 
-![Farmers Market Finder Demo](src/assets/video/demo.gif)
+![select-vue3 Demo](src/assets/video/demo.gif)
 
 ## Installation
 
