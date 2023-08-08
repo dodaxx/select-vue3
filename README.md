@@ -4,6 +4,10 @@
 
 A simple select component for vuejs 3.You can search with partial match in list options.
 
+## Demo
+
+![Farmers Market Finder Demo](src/assets/video/demo.gif)
+
 ## Installation
 
 Install select-vue3 with npm
