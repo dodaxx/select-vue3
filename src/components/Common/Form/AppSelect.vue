@@ -9,14 +9,10 @@ type OptionsSelected = {
 };
 
 //TODO: ADD ANOTHER STYLE
-type Styles = {
-  borderColor?: string,
-  fontSize?: string
-}
 
-const { optionsList, stylesOptions } = defineProps<{
+
+const { optionsList } = defineProps<{
   optionsList: Array<OptionsSelected>,
-  stylesOptions?: Styles
 }>();
 
 const emit = defineEmits<{
@@ -28,10 +24,6 @@ const divOptions = ref<HTMLDivElement>();
 const divOverflow = ref<HTMLElement>();
 const isActive = ref<boolean>(false);
 
-const styles = ref({
-  border: `1px solid ${stylesOptions?.borderColor}`,
-  fontSize: stylesOptions?.fontSize ? stylesOptions?.fontSize : '14px'
-});
 
 function handleChooseOption(d: OptionsSelected) {
   const f = { ...d };
@@ -76,7 +68,7 @@ watch(() => optionSelected.value.label,
 </script>
 <template>
   <div class="select" id="select-options">
-    <div :class="`select-wrapper ${isActive ? 'active' : ''}`" @click="handleShowSelectOptions" :style="styles">
+    <div :class="`select-wrapper ${isActive ? 'active' : ''}`" @click="handleShowSelectOptions">
       <div :class="`select-wrapper__border ${isActive ? 'active' : ''}`">
         <input type="text" v-model="optionSelected.label" :readonly="!isActive" />
         <div :class="`icon-arrow ${isActive ? 'active' : ''}`">
@@ -84,7 +76,7 @@ watch(() => optionSelected.value.label,
         </div>
       </div>
     </div>
-    <div :class="`select-options ${isActive ? 'show' : ''}`" :style="styles">
+    <div :class="`select-options ${isActive ? 'show' : ''}`">
       <div class="select-options__overflow" ref="divOverflow">
         <div class="select-options__wrapper" ref="divOptions">
           <div v-for="(i, index) in  optionsList " :key="`i-${index}`"
