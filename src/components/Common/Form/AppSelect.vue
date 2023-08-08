@@ -25,6 +25,7 @@ const emit = defineEmits<{
 
 const optionSelected = ref<OptionsSelected>({ ...optionsList[0] });
 const divOptions = ref<HTMLDivElement>();
+const divOverflow = ref<HTMLElement>();
 const isActive = ref<boolean>(false);
 
 const styles = ref({
@@ -59,12 +60,13 @@ onMounted(() => {
 
 watch(() => optionSelected.value.label,
   (n) => {
-    for (let i = 0; i < divOptions.value?.children.length!; i++) {
+    for (let i = 0; i < optionsList.length; i++) {
       const regex = new RegExp(n, "i");
+      // console.log(optionsList[i].label.match(regex));
       if (optionsList[i].label.match(regex)) {
         const positionParent = divOptions.value!.getBoundingClientRect().y;
         const positionChildren = divOptions.value!.children[i].getBoundingClientRect().y;
-        divOptions.value!.scrollTo(0, positionChildren - positionParent + divOptions.value!.scrollTop);
+        divOverflow.value!.scrollTo(0, positionChildren - positionParent + divOptions.value!.scrollTop);
         break
       }
     }
@@ -82,9 +84,9 @@ watch(() => optionSelected.value.label,
         </div>
       </div>
     </div>
-    <div :class="`select-options ${isActive ? 'show' : ''}`" ref="divOptions" :style="styles">
-      <div class="select-options__overflow">
-        <div class="select-options__wrapper">
+    <div :class="`select-options ${isActive ? 'show' : ''}`" :style="styles">
+      <div class="select-options__overflow" ref="divOverflow">
+        <div class="select-options__wrapper" ref="divOptions">
           <div v-for="(i, index) in  optionsList " :key="`i-${index}`"
             :class="`select-options__option ${index === optionSelected.id ? `active` : ''}`"
             @click="handleChooseOption(i)">
