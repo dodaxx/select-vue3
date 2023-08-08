@@ -66,7 +66,7 @@ watch(() => optionSelected.value.label,
       if (optionsList[i].label.match(regex)) {
         const positionParent = divOptions.value!.getBoundingClientRect().y;
         const positionChildren = divOptions.value!.children[i].getBoundingClientRect().y;
-        divOverflow.value!.scrollTo(0, positionChildren - positionParent + divOptions.value!.scrollTop);
+        divOverflow.value!.scrollTo(0, positionChildren - positionParent + divOptions.value!.scrollTop - 5);
         break
       }
     }
