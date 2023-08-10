@@ -62,12 +62,15 @@ function handleOptionsSelected(d: OptionsSelected) {
   console.log(d);
 }
 
+const theme = {
+  color: "4c7dfc"
+};
 
 </script>
 
 <template>
   <div class="test">
-    <AppSelect :options-list="options" @get-option-selected="handleOptionsSelected" />
+    <AppSelect :options-list="options" :theme="theme" @get-option-selected="handleOptionsSelected" />
   </div>
 </template>
 

@@ -2,7 +2,12 @@
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-A simple select component for vuejs 3.You can search with partial match in list options.
+A simple select component for vuejs 3.
+
+Features:
+
+- Search
+- Custom Color
 
 ## Demo
 
@@ -49,6 +54,10 @@ const options = [
   },
 ];
 
+const theme = {
+  color: "4c7dfc", //code color without '#'
+}; // Custom color theme
+
 function handleOptionsSelected(d) {
   console.log(d); // output: option selected from AppSelect
 }
@@ -57,6 +66,7 @@ function handleOptionsSelected(d) {
 <template>
   <AppSelect
     :options-list="options"
+    :theme="theme"
     @get-option-selected="handleOptionsSelected"
   />
 </template>
