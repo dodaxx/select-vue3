@@ -28,7 +28,7 @@ const divOverflow = ref<HTMLElement>();
 const selectWrapper = ref<HTMLDivElement>();
 const selectWrapperBorder = ref<HTMLDivElement>();
 const iconArrow = ref<HTMLElement>();
-const svg = ref<HTMLElement>();
+const svg = ref<InstanceType<typeof ArrowDownIcon> | null>();
 const isActive = ref<boolean>(false);
 
 const themeListParent = {
@@ -57,12 +57,12 @@ function handleChooseOption(d: OptionsSelected) {
   opSelected.removeAttribute('style');
   const f = { ...d };
   optionSelected.value = f;
-  emit('getOptionSelected', optionSelected.value);
   isActive.value = false;
   addStyle(iconArrow.value!, themeIconWrapper);
-  addStyle(svg.value!, themeSvg);
+  addStyle(svg.value!.$el, themeSvg);
   selectWrapper.value?.removeAttribute('style'); //Remove all style in selectWrapper
   selectWrapperBorder.value?.removeAttribute('style');
+  emit('getOptionSelected', optionSelected.value);
 };
 
 function handleShowSelectOptions() {
@@ -74,13 +74,13 @@ function handleShowSelectOptions() {
       addStyle(selectWrapper.value!, themeListParent);
       addStyle(selectOptionsOption, themeOptionActive);
       iconArrow.value?.removeAttribute('style'); //Remove all style in iconArrow
-      svg.value?.removeAttribute('style'); //Remove all style in svg
+      svg.value?.$el.removeAttribute('style'); //Remove all style in svg
     }, 10);
   } else {
     selectWrapper.value?.removeAttribute('style');
     selectWrapperBorder.value?.removeAttribute('style');
     addStyle(iconArrow.value!, themeIconWrapper);
-    addStyle(svg.value!, themeSvg);
+    addStyle(svg.value!.$el, themeSvg);
   }
 };
 
@@ -101,7 +101,7 @@ const handleMouseLeaveOption = (e: MouseEvent) => {
 onMounted(() => {
   const selOp = document.getElementById('select-options');
   addStyle(iconArrow.value!, themeIconWrapper);
-  addStyle(svg.value!, themeSvg);
+  addStyle(svg.value!.$el, themeSvg);
   //HIDE IF CLIENT CLICK OUTSIDE THE SELECT
   document.addEventListener('click', event => {
     const eTarg = event.target as Element;
@@ -111,7 +111,7 @@ onMounted(() => {
       selectWrapper.value?.removeAttribute('style'); //Remove all style in selectWrapper
       selectWrapperBorder.value?.removeAttribute('style'); //Remove all style in selectWrapperBorder
       addStyle(iconArrow.value!, themeIconWrapper);
-      addStyle(svg.value!, themeSvg);
+      addStyle(svg.value!.$el, themeSvg);
     }
   })
 });
