@@ -2,17 +2,20 @@
 import { onMounted, ref, watch } from 'vue';
 import ArrowDownIcon from '../../icons/ArrowDownIcon.vue';
 import CheckIcon from '../../icons/CheckIcon.vue';
+import { addStyle } from '../../../utils/addStyle'
 
 type OptionsSelected = {
   id: number,
   label: string
 };
 
-//TODO: ADD ANOTHER STYLE
+type Theme = {
+  color: string
+}
 
-
-const { optionsList } = defineProps<{
+const { optionsList, theme } = defineProps<{
   optionsList: Array<OptionsSelected>,
+  theme: Theme
 }>();
 
 const emit = defineEmits<{
@@ -24,28 +27,94 @@ const divOptions = ref<HTMLDivElement>();
 const divOverflow = ref<HTMLElement>();
 const isActive = ref<boolean>(false);
 
+const themeListParent = {
+  border: `3px solid #${theme.color}4b`,
+};
+const themeListChild = {
+  border: `1px solid #${theme.color}`,
+};
+const themeIconWrapper = {
+  backgroundColor: `#${theme.color}4b`,
+  color: `#${theme.color}4b`
+};
+const themeSvg = {
+  color: `#${theme.color}4b`
+};
+const themeOption = {
+  backgroundColor: `#${theme.color}4b`
+};
+const themeOptionActive = {
+  backgroundColor: `#${theme.color}4b`,
+  color: `#${theme.color}`
+};
 
 function handleChooseOption(d: OptionsSelected) {
+  const iconArrow = document.querySelector('.icon-arrow') as HTMLElement;
+  const svg = document.querySelector('.icon-arrow > svg') as HTMLElement;
+  const opSelected = document.querySelector('.select-options__option.active') as HTMLElement;
+  opSelected.removeAttribute('style');
   const f = { ...d };
   optionSelected.value = f;
   emit('getOptionSelected', optionSelected.value);
-  isActive.value = false
-
+  isActive.value = false;
+  addStyle(iconArrow, themeIconWrapper);
+  addStyle(svg, themeSvg);
 };
 
 function handleShowSelectOptions() {
+  const selectWrapper = document.querySelector('.select-wrapper') as HTMLElement;
+  const selectWrapperBorder = document.querySelector('.select-wrapper__border') as HTMLElement;
+  const iconArrow = document.querySelector('.icon-arrow') as HTMLElement;
+  const svg = document.querySelector('.icon-arrow > svg') as HTMLElement;
   isActive.value = !isActive.value;
+  if (isActive.value) {
+    setTimeout(() => {
+      const selectOptionsOption = document.querySelector('.select-options__option.active') as HTMLElement;
+      addStyle(selectWrapperBorder, themeListChild);
+      addStyle(selectWrapper, themeListParent);
+      addStyle(selectOptionsOption, themeOptionActive);
+      iconArrow.removeAttribute('style'); //Remove all style in iconArrow
+      svg.removeAttribute('style'); //Remove all style in svg
+    }, 10);
+  } else {
+    selectWrapper.removeAttribute('style');
+    selectWrapperBorder.removeAttribute('style');
+    addStyle(iconArrow, themeIconWrapper);
+    addStyle(svg, themeSvg);
+  }
+};
 
+const handleMouseEnterOption = (e: MouseEvent) => {
+  const t = e.target as HTMLElement;
+  if (theme.color) {
+    addStyle(t, themeOption);
+  }
+};
+
+const handleMouseLeaveOption = (e: MouseEvent) => {
+  const t = e.target as HTMLElement;
+  if (theme.color && !t.classList.contains('active')) {
+    t.style.backgroundColor = 'transparent';
+  }
 };
 
 onMounted(() => {
+  const selectWrapper = document.querySelector('.select-wrapper') as HTMLElement;
+  const selectWrapperBorder = document.querySelector('.select-wrapper__border') as HTMLElement;
+  const iconArrow = document.querySelector('.icon-arrow') as HTMLElement;
+  const svg = document.querySelector('.icon-arrow > svg') as HTMLElement;
+  const selOp = document.getElementById('select-options');
+  addStyle(iconArrow, themeIconWrapper);
+  addStyle(svg, themeSvg);
   document.addEventListener('click', event => {
-    const selOp = document.getElementById('select-options');
     const eTarg = event.target as Element;
     const isOutside = selOp?.contains(eTarg);
     if (!isOutside) {
-      divOptions.value?.classList.remove('show');
-      isActive.value = false
+      isActive.value = false //hiding options
+      selectWrapper.removeAttribute('style'); //Remove all style in selectWrapper
+      selectWrapperBorder.removeAttribute('style'); //Remove all style in selectWrapperBorder
+      addStyle(iconArrow, themeIconWrapper);
+      addStyle(svg, themeSvg);
     }
   })
 });
@@ -81,7 +150,7 @@ watch(() => optionSelected.value.label,
         <div class="select-options__wrapper" ref="divOptions">
           <div v-for="(i, index) in  optionsList " :key="`i-${index}`"
             :class="`select-options__option ${index === optionSelected.id ? `active` : ''}`"
-            @click="handleChooseOption(i)">
+            @click="handleChooseOption(i)" @mouseenter="handleMouseEnterOption" @mouseleave="handleMouseLeaveOption">
             {{ i.label }}
             <CheckIcon :class="`${index === optionSelected.id ? `active` : ''}`" />
           </div>
@@ -177,7 +246,7 @@ watch(() => optionSelected.value.label,
     position: absolute;
     min-width: 250px;
     width: 100%;
-    padding-right: 5px;
+    padding-right: 2px;
 
     &__overflow {
       overflow: auto;
@@ -200,7 +269,7 @@ watch(() => optionSelected.value.label,
     }
 
     &__wrapper {
-      padding: 6px;
+      padding: 6px 3px 6px 5px;
       display: flex;
       flex-direction: column;
       gap: 4px;
@@ -221,6 +290,17 @@ watch(() => optionSelected.value.label,
       cursor: pointer;
       border-radius: 8px;
       color: #3f3f3f;
+      font-size: 14px;
+
+      /* &:hover {
+        background-color: #7096f825;
+      } */
+
+      &.active {
+        background-color: #7096f825;
+        color: #4c7dfc;
+        font-weight: 700;
+      }
 
       svg {
         display: none;
@@ -230,16 +310,6 @@ watch(() => optionSelected.value.label,
         &.active {
           display: block;
         }
-      }
-
-      &:hover {
-        background-color: #7096f825;
-      }
-
-      &.active {
-        background-color: #7096f825;
-        color: #4c7dfc;
-        font-weight: 700;
       }
     }
   }
