@@ -118,6 +118,7 @@ onMounted(() => {
 
 watch(() => optionSelected.value.label,
   (n) => {
+    //partial match 
     for (let i = 0; i < optionsList.length; i++) {
       const regex = new RegExp(n, "i");
       if (optionsList[i].label.match(regex)) {
