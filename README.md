@@ -2,7 +2,12 @@
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-A simple select component for vuejs 3.You can search with partial match in list options.
+A simple select component for vuejs 3.
+
+Features:
+
+- Search
+- Custom Color
 
 ## Demo
 
