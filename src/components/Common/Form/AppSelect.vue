@@ -49,6 +49,8 @@ const themeOptionActive = {
 };
 
 function handleChooseOption(d: OptionsSelected) {
+  const selectWrapper = document.querySelector('.select-wrapper') as HTMLElement;
+  const selectWrapperBorder = document.querySelector('.select-wrapper__border') as HTMLElement;
   const iconArrow = document.querySelector('.icon-arrow') as HTMLElement;
   const svg = document.querySelector('.icon-arrow > svg') as HTMLElement;
   const opSelected = document.querySelector('.select-options__option.active') as HTMLElement;
@@ -59,6 +61,8 @@ function handleChooseOption(d: OptionsSelected) {
   isActive.value = false;
   addStyle(iconArrow, themeIconWrapper);
   addStyle(svg, themeSvg);
+  selectWrapper.removeAttribute('style'); //Remove all style in selectWrapper
+  selectWrapperBorder.removeAttribute('style');
 };
 
 function handleShowSelectOptions() {
