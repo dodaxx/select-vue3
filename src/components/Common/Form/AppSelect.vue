@@ -25,6 +25,10 @@ const emit = defineEmits<{
 const optionSelected = ref<OptionsSelected>({ ...optionsList[0] });
 const divOptions = ref<HTMLDivElement>();
 const divOverflow = ref<HTMLElement>();
+const selectWrapper = ref<HTMLDivElement>();
+const selectWrapperBorder = ref<HTMLDivElement>();
+const iconArrow = ref<HTMLElement>();
+const svg = ref<HTMLElement>();
 const isActive = ref<boolean>(false);
 
 const themeListParent = {
@@ -49,42 +53,34 @@ const themeOptionActive = {
 };
 
 function handleChooseOption(d: OptionsSelected) {
-  const selectWrapper = document.querySelector('.select-wrapper') as HTMLElement;
-  const selectWrapperBorder = document.querySelector('.select-wrapper__border') as HTMLElement;
-  const iconArrow = document.querySelector('.icon-arrow') as HTMLElement;
-  const svg = document.querySelector('.icon-arrow > svg') as HTMLElement;
   const opSelected = document.querySelector('.select-options__option.active') as HTMLElement;
   opSelected.removeAttribute('style');
   const f = { ...d };
   optionSelected.value = f;
   emit('getOptionSelected', optionSelected.value);
   isActive.value = false;
-  addStyle(iconArrow, themeIconWrapper);
-  addStyle(svg, themeSvg);
-  selectWrapper.removeAttribute('style'); //Remove all style in selectWrapper
-  selectWrapperBorder.removeAttribute('style');
+  addStyle(iconArrow.value!, themeIconWrapper);
+  addStyle(svg.value!, themeSvg);
+  selectWrapper.value?.removeAttribute('style'); //Remove all style in selectWrapper
+  selectWrapperBorder.value?.removeAttribute('style');
 };
 
 function handleShowSelectOptions() {
-  const selectWrapper = document.querySelector('.select-wrapper') as HTMLElement;
-  const selectWrapperBorder = document.querySelector('.select-wrapper__border') as HTMLElement;
-  const iconArrow = document.querySelector('.icon-arrow') as HTMLElement;
-  const svg = document.querySelector('.icon-arrow > svg') as HTMLElement;
   isActive.value = !isActive.value;
   if (isActive.value) {
     setTimeout(() => {
       const selectOptionsOption = document.querySelector('.select-options__option.active') as HTMLElement;
-      addStyle(selectWrapperBorder, themeListChild);
-      addStyle(selectWrapper, themeListParent);
+      addStyle(selectWrapperBorder.value!, themeListChild);
+      addStyle(selectWrapper.value!, themeListParent);
       addStyle(selectOptionsOption, themeOptionActive);
-      iconArrow.removeAttribute('style'); //Remove all style in iconArrow
-      svg.removeAttribute('style'); //Remove all style in svg
+      iconArrow.value?.removeAttribute('style'); //Remove all style in iconArrow
+      svg.value?.removeAttribute('style'); //Remove all style in svg
     }, 10);
   } else {
-    selectWrapper.removeAttribute('style');
-    selectWrapperBorder.removeAttribute('style');
-    addStyle(iconArrow, themeIconWrapper);
-    addStyle(svg, themeSvg);
+    selectWrapper.value?.removeAttribute('style');
+    selectWrapperBorder.value?.removeAttribute('style');
+    addStyle(iconArrow.value!, themeIconWrapper);
+    addStyle(svg.value!, themeSvg);
   }
 };
 
@@ -103,22 +99,19 @@ const handleMouseLeaveOption = (e: MouseEvent) => {
 };
 
 onMounted(() => {
-  const selectWrapper = document.querySelector('.select-wrapper') as HTMLElement;
-  const selectWrapperBorder = document.querySelector('.select-wrapper__border') as HTMLElement;
-  const iconArrow = document.querySelector('.icon-arrow') as HTMLElement;
-  const svg = document.querySelector('.icon-arrow > svg') as HTMLElement;
   const selOp = document.getElementById('select-options');
-  addStyle(iconArrow, themeIconWrapper);
-  addStyle(svg, themeSvg);
+  addStyle(iconArrow.value!, themeIconWrapper);
+  addStyle(svg.value!, themeSvg);
+  //HIDE IF CLIENT CLICK OUTSIDE THE SELECT
   document.addEventListener('click', event => {
     const eTarg = event.target as Element;
     const isOutside = selOp?.contains(eTarg);
     if (!isOutside) {
-      isActive.value = false //hiding options
-      selectWrapper.removeAttribute('style'); //Remove all style in selectWrapper
-      selectWrapperBorder.removeAttribute('style'); //Remove all style in selectWrapperBorder
-      addStyle(iconArrow, themeIconWrapper);
-      addStyle(svg, themeSvg);
+      isActive.value = false; //hiding options
+      selectWrapper.value?.removeAttribute('style'); //Remove all style in selectWrapper
+      selectWrapperBorder.value?.removeAttribute('style'); //Remove all style in selectWrapperBorder
+      addStyle(iconArrow.value!, themeIconWrapper);
+      addStyle(svg.value!, themeSvg);
     }
   })
 });
@@ -127,7 +120,6 @@ watch(() => optionSelected.value.label,
   (n) => {
     for (let i = 0; i < optionsList.length; i++) {
       const regex = new RegExp(n, "i");
-      // console.log(optionsList[i].label.match(regex));
       if (optionsList[i].label.match(regex)) {
         const positionParent = divOptions.value!.getBoundingClientRect().y;
         const positionChildren = divOptions.value!.children[i].getBoundingClientRect().y;
@@ -141,11 +133,11 @@ watch(() => optionSelected.value.label,
 </script>
 <template>
   <div class="select" id="select-options">
-    <div :class="`select-wrapper ${isActive ? 'active' : ''}`" @click="handleShowSelectOptions">
-      <div :class="`select-wrapper__border ${isActive ? 'active' : ''}`">
+    <div :class="`select-wrapper ${isActive ? 'active' : ''}`" @click="handleShowSelectOptions" ref="selectWrapper">
+      <div :class="`select-wrapper__border ${isActive ? 'active' : ''}`" ref="selectWrapperBorder">
         <input type="text" v-model="optionSelected.label" :readonly="!isActive" />
-        <div :class="`icon-arrow ${isActive ? 'active' : ''}`">
-          <ArrowDownIcon />
+        <div :class="`icon-arrow ${isActive ? 'active' : ''}`" ref="iconArrow">
+          <ArrowDownIcon ref="svg" />
         </div>
       </div>
     </div>
